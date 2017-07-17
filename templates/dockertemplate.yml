@@ -1,0 +1,53 @@
+heat_template_version: 2013-05-23
+# Author: Miguel Angel Diego
+# Date: 16/06/2017
+# Purpose: Deploy Docker on Ubuntu 14.04 on Fujitsu's Cloud Service K5 IaaS Platform
+
+description: Deploy Docker on Ubuntu
+
+# Input parameters
+parameters:
+  k5_ubuntu_image:
+    type: string
+    label: Image name or ID
+    description: Image to be used for compute instance
+    default: "Ubuntu Server 14.04 LTS (English) 02"
+  flavor:
+    type: string
+    label: Flavor
+    description: Type of instance (flavor) to be used
+    default: "S-1"
+  private_net:
+    type: string
+    label: private network id
+    description: tenant network used to host instance
+    default: "71a519ae-d425-4f68-9026-c38b15e7f09e"
+  public_net:
+    type: string
+    label: public network id
+    description: id of public network to supply floating ips
+    default: "42d80316-c2e5-4628-b63b-6e87b3749220"
+  az:
+    type: string
+    label: Availability Zone
+    description: Region AZ to use
+    default: "fi-1a"
+  key_pair:
+    type: string
+    label: Key name
+    description: Name of key-pair to be used for compute instance
+    default: "mdiego"
+
+# K5 Infrastructure resources to be built
+resources:
+
+# Build a server using the system volume defined above
+  docker-server:
+    type: OS::Nova::Server
+    properties:
+      key_name: { get_param: key_pair }
+      image: { get_param: k5_ubuntu_image }
+      flavor: { get_param: flavor }
+      admin_user: ubuntu
+      metadata: { "fcx.autofailover": True }
+      name: "mdiego_docker_vm"
