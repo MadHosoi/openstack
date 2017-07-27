@@ -37,6 +37,11 @@ parameters:
     label: Key name
     description: Name of key-pair to be used for compute instance
     default: "mdiego"
+  name:
+    type: string
+    label: Key name
+    description: Name of key-pair to be used for compute instance
+    default: "mdiego_docker_vm1"
 
 # K5 Infrastructure resources to be built
 resources:
@@ -50,4 +55,4 @@ resources:
       flavor: { get_param: flavor }
       admin_user: ubuntu
       metadata: { "fcx.autofailover": True }
-      name: "mdiego_docker_vm"
+      name: { get_param: name }
