@@ -1,0 +1,20 @@
+heat_template_version: 2013-05-23
+# Author: Miguel Angel Diego Alfageme
+# Date: 28/08/2017
+# Purpose: Deploy Infraestructure needed to make a Nextcloud service with nextcloud and HA 
+# on Fujitsu's Cloud Service K5 IaaS Platform
+#
+#
+description: Deploy NextCloud on nextcloud & Docker own Infra
+
+
+# K5 Infrastructure resources to be built
+resources:
+  # Build a nextcloud server using the system volume defined above
+  nextcloud_host_1:
+    type: OS::Nova::Server
+    properties:
+      availability_zone: "es-1a"
+      name: "nextcloud_host_1"
+      flavor: "C-1"
+      image : "45895e58-e416-4b96-9576-1df6cba6e264"
